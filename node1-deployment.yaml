@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.12.0 (0ab07be)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: node1
+  name: node1
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: node1
+    spec:
+      containers:
+      - args:
+        - mysqld
+        - --server-id=1
+        - --log-bin=mysql-bin-1.log
+        - --enforce-gtid-consistency=ON
+        - --log-slave-updates=ON
+        - --gtid-mode=ON
+        - --transaction-write-set-extraction=XXHASH64
+        - --binlog-checksum=NONE
+        - --master-info-repository=TABLE
+        - --relay-log-info-repository=TABLE
+        - --plugin-load=group_replication.so
+        - --relay-log-recovery=ON
+        - --loose-group-replication-start-on-boot=OFF
+        - --loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+        - --loose-group-replication-local-address=node1:6606
+        - --loose-group-replication-group-seeds=node1:6606,node2:6606,node3:6606
+        - --loose-group-replication-single-primary-mode=ON
+        - --loose-group-replication-enforce-update-everywhere-checks=OFF
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: mypass
+        image: mysql/mysql-server:8.0
+        livenessProbe:
+          exec:
+            command:
+            - mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}
+          failureThreshold: 20
+          periodSeconds: 2
+        name: node1
+        ports:
+        - containerPort: 3306
+        resources: {}
+      hostname: node1
+      restartPolicy: Always
+status: {}
