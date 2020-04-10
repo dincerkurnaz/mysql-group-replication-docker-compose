@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   node1:
-    image: mysql/mysql-server:8.0
+    image: mysql/mysql-server:8.0.13
     container_name: node1
     hostname: node1
     ports:
@@ -27,15 +27,15 @@ services:
       "--loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
       "--loose-group-replication-local-address=node1:6606",
       "--loose-group-replication-group-seeds=node1:6606,node2:6606,node3:6606",
-      "--loose-group-replication-single-primary-mode=ON",
-      "--loose-group-replication-enforce-update-everywhere-checks=OFF"]
+      "--loose-group-replication-single-primary-mode=OFF",
+      "--loose-group-replication-enforce-update-everywhere-checks=ON"]
     healthcheck:
       test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
       interval: 2s
       retries: 20
 
   node2:
-    image: mysql/mysql-server:8.0
+    image: mysql/mysql-server:8.0.13
     container_name: node2
     hostname: node2
     ports:
@@ -59,15 +59,15 @@ services:
       "--loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
       "--loose-group-replication-local-address=node2:6606",
       "--loose-group-replication-group-seeds=node1:6606,node2:6606,node3:6606",
-      "--loose-group-replication-single-primary-mode=ON",
-      "--loose-group-replication-enforce-update-everywhere-checks=OFF"]
+      "--loose-group-replication-single-primary-mode=OFF",
+      "--loose-group-replication-enforce-update-everywhere-checks=ON"]
     healthcheck:
       test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
       interval: 2s
       retries: 20
 
   node3:
-    image: mysql/mysql-server:8.0
+    image: mysql/mysql-server:8.0.13
     container_name: node3
     hostname: node3
     ports:
@@ -91,8 +91,8 @@ services:
       "--loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
       "--loose-group-replication-local-address=node3:6606",
       "--loose-group-replication-group-seeds=node1:6606,node2:6606,node3:6606",
-      "--loose-group-replication-single-primary-mode=ON",
-      "--loose-group-replication-enforce-update-everywhere-checks=OFF"]
+      "--loose-group-replication-single-primary-mode=OFF",
+      "--loose-group-replication-enforce-update-everywhere-checks=ON"]
     healthcheck:
       test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
       interval: 2s
