@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: node2
+  name: node2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: node2
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: node2
+    spec:
+      containers:
+      - args:
+        - mysqld
+        - --server-id=1
+        - --log-bin=mysql-bin-1.log
+        - --enforce-gtid-consistency=ON
+        - --log-slave-updates=ON
+        - --gtid-mode=ON
+        - --transaction-write-set-extraction=XXHASH64
+        - --binlog-checksum=NONE
+        - --master-info-repository=TABLE
+        - --relay-log-info-repository=TABLE
+        - --plugin-load=group_replication.so
+        - --relay-log-recovery=ON
+        - --loose-group-replication-start-on-boot=OFF
+        - --loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+        - --loose-group-replication-local-address=node2:6606
+        - --loose-group-replication-group-seeds=node1:6606,node2:6606,node3:6606
+        - --loose-group-replication-single-primary-mode=OFF
+        - --loose-group-replication-enforce-update-everywhere-checks=ON
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: mypass
+        image: mysql/mysql-server:8.0.13
+        imagePullPolicy: ""
+        livenessProbe:
+          exec:
+            command:
+            - mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}
+          failureThreshold: 20
+          periodSeconds: 2
+        name: node2
+        ports:
+        - containerPort: 3306
+        resources: {}
+      hostname: node2
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
