@@ -1,3 +1,35 @@
+```
+https://www.katacoda.com/courses/docker-orchestration/playground
+Swarm başlat
+
+git clone https://github.com/dincerkurnaz/mysql-group-replication-docker-compose.git
+cd mysql-group-replication-docker-compose.git
+docker stack deploy --compose-file docker-compose.yml myapp
+docker stack ps myapp
+docker stack services myapp
+docker ps
+docker logs -f xxxx
+docker exec -ti 2f7ec0051b5c sh
+mysql -pmypass
+SET @@GLOBAL.group_replication_bootstrap_group=1;
+create user 'repl'@'%';
+GRANT REPLICATION SLAVE ON *.* TO repl@'%';
+flush privileges;
+change master to master_user='root' for channel 'group_replication_recovery';
+START GROUP_REPLICATION;
+SET @@GLOBAL.group_replication_bootstrap_group=0;
+SELECT * FROM performance_schema.replication_group_members;
+
+docker exec -ti 2f7ec0051354 sh
+mysql -pmypass
+change master to master_user='repl' for channel 'group_replication_recovery';
+START GROUP_REPLICATION;
+SHOW VARIABLES WHERE Variable_name = 'hostname';
+SELECT * FROM performance_schema.replication_group_members;
+
+mysql -pmypass
+create database dincer;
+```
 [![Build Status](https://travis-ci.org/wagnerjfr/mysql-group-replication-docker-compose.svg?branch=master)](https://travis-ci.org/wagnerjfr/mysql-group-replication-docker-compose)
 
 # Seeting up MySQL Group replication with Docker Compose
