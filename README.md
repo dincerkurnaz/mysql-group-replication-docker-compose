@@ -3,7 +3,7 @@ https://www.katacoda.com/courses/docker-orchestration/playground
 Swarm başlat
 
 git clone https://github.com/dincerkurnaz/mysql-group-replication-docker-compose.git
-cd mysql-group-replication-docker-compose.git
+cd mysql-group-replication-docker-compose
 docker stack deploy --compose-file docker-compose.yml myapp
 docker stack ps myapp
 docker stack services myapp
