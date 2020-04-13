@@ -5,6 +5,8 @@ Swarm başlat
 git clone https://github.com/dincerkurnaz/mysql-group-replication-docker-compose.git
 cd mysql-group-replication-docker-compose
 docker stack deploy --compose-file docker-compose.yml myapp
+docker ps -q -f name=myapp
+
 docker stack ps myapp
 docker stack services myapp
 docker ps
