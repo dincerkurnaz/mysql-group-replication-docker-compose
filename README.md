@@ -29,6 +29,11 @@ SELECT * FROM performance_schema.replication_group_members;
 
 mysql -pmypass
 create database dincer;
+
+Not:
+INSTALL PLUGIN group_replication SONAME 'group_replication.so';
+SHOW PLUGINS;
+
 ```
 [![Build Status](https://travis-ci.org/wagnerjfr/mysql-group-replication-docker-compose.svg?branch=master)](https://travis-ci.org/wagnerjfr/mysql-group-replication-docker-compose)
 
