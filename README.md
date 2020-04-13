@@ -7,14 +7,14 @@ cd mysql-group-replication-docker-compose
 
 docker stack deploy --compose-file docker-compose.yml myapp
 
+docker container ls
+
+OR
+
 docker ps -q -f name=myapp
 263676ef6a12
 b529ccaf779c
 ea4a8ea23abf
-
-OR
-
-docker container ls
 
 docker exec 263676ef6a12 mysql -uroot -pmypass \
   -e "SET @@GLOBAL.group_replication_bootstrap_group=1;" \
