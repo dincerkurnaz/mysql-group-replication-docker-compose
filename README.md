@@ -4,8 +4,35 @@ Swarm başlat
 
 git clone https://github.com/dincerkurnaz/mysql-group-replication-docker-compose.git
 cd mysql-group-replication-docker-compose
+
 docker stack deploy --compose-file docker-compose.yml myapp
+
 docker ps -q -f name=myapp
+263676ef6a12
+b529ccaf779c
+ea4a8ea23abf
+
+docker exec 263676ef6a12 mysql -uroot -pmypass \
+  -e "SET @@GLOBAL.group_replication_bootstrap_group=1;" \
+  -e "create user 'repl'@'%';" \
+  -e "GRANT REPLICATION SLAVE ON *.* TO repl@'%';" \
+  -e "flush privileges;" \
+  -e "change master to master_user='root' for channel 'group_replication_recovery';" \
+  -e "START GROUP_REPLICATION;" \
+  -e "SET @@GLOBAL.group_replication_bootstrap_group=0;" \
+  -e "SELECT * FROM performance_schema.replication_group_members;"
+
+docker exec b529ccaf779c mysql -uroot -pmypass \
+  -e "change master to master_user='repl' for channel 'group_replication_recovery';" \
+  -e "START GROUP_REPLICATION;"\
+  -e "SELECT * FROM performance_schema.replication_group_members;"
+
+docker exec ea4a8ea23abf mysql -uroot -pmypass \
+  -e "change master to master_user='repl' for channel 'group_replication_recovery';" \
+  -e "START GROUP_REPLICATION;"\
+  -e "SELECT * FROM performance_schema.replication_group_members;"
+
+
 
 docker stack ps myapp
 docker stack services myapp
