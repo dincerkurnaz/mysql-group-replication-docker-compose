@@ -62,6 +62,8 @@ SELECT * FROM performance_schema.replication_group_members;
 
 mysql -pmypass
 create database dincer;
+SHOW BINLOG EVENTS;
+
 
 Not:
 INSTALL PLUGIN group_replication SONAME 'group_replication.so';
