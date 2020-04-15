@@ -43,6 +43,11 @@ mysql -pmypass
 SELECT * FROM performance_schema.replication_group_members;
 create database dincer;
 SHOW BINLOG EVENTS;
+use dincer;
+create table test (id int NOT NULL AUTO_INCREMENT PRIMARY KEY,name varchar(20));
+insert into test set name="1";
+select * from test;
+insert into test set name=(rand());
 
 ####################################
 docker stack ps myapp
