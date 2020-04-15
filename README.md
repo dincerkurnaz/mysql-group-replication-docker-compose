@@ -2,12 +2,14 @@
 ```
 Swarm başlat
 
+docker node ls
+
 git clone https://github.com/dincerkurnaz/mysql-group-replication-docker-compose.git
 cd mysql-group-replication-docker-compose
 
 docker stack deploy --compose-file docker-compose.yml myapp
 
-docker container ls
+docker stack ps myapp
 
 OR
 
