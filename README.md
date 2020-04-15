@@ -49,6 +49,22 @@ insert into test set name="1";
 select * from test;
 insert into test set name=(rand());
 
+delimiter //
+
+CREATE PROCEDURE ekleproc()
+BEGIN
+    DECLARE i int DEFAULT 100;
+    WHILE i <= 450 DO
+        insert into test set name=(rand());
+        SET i = i + 1;
+    END WHILE;
+END//
+
+delimiter ;
+
+call ekleproc();
+
+bitti :)
 ####################################
 docker stack ps myapp
 docker stack services myapp
