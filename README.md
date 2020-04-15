@@ -51,10 +51,10 @@ insert into test set name=(rand());
 
 delimiter //
 
-CREATE PROCEDURE ekleproc()
+CREATE PROCEDURE proc1()
 BEGIN
-    DECLARE i int DEFAULT 100;
-    WHILE i <= 450 DO
+    DECLARE i int DEFAULT 1;
+    WHILE i <= 500 DO
         insert into test set name=(rand());
         SET i = i + 1;
     END WHILE;
@@ -62,7 +62,7 @@ END//
 
 delimiter ;
 
-call ekleproc();
+call proc1();
 
 bitti :)
 ####################################
