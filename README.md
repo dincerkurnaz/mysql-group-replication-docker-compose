@@ -64,6 +64,8 @@ delimiter ;
 
 call proc1();
 
+SELECT * FROM performance_schema.replication_group_member_stats\G
+
 bitti :)
 ####################################
 docker stack ps myapp
