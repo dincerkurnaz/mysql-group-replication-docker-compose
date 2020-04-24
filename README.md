@@ -214,6 +214,22 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 | group_replication_applier | da6bca74-19c5-11e9-b9f3-0242ac1e0004 | node3       |        3306 | ONLINE       | SECONDARY   | 8.0.13         |
 +---------------------------+--------------------------------------+-------------+-------------+--------------+-------------+----------------+
 ```
+### Stop Start
+```
+docker-compose stop
+docker-compose start
+docker-compose logs -f
+
+docker-compose exec node1 bash
+SET @@GLOBAL.group_replication_bootstrap_group=1;
+START GROUP_REPLICATION;
+SET @@GLOBAL.group_replication_bootstrap_group=0;
+
+docker-compose exec node2 bash
+START GROUP_REPLICATION;
+SELECT * FROM performance_schema.replication_group_members;
+
+```
 
 ### Step 5: Clean up
 Run `docker-compose down` in the same path where docker-compose.yml file is located.
