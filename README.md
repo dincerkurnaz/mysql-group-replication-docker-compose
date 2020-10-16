@@ -38,6 +38,11 @@ docker exec ea4a8ea23abf mysql -uroot -pmypass \
   -e "START GROUP_REPLICATION;"\
   -e "SELECT * FROM performance_schema.replication_group_members;"
 
+CREATE USER 'root'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+
+
+
 docker exec -ti 263676ef6a12 sh
 mysql -pmypass
 SELECT * FROM performance_schema.replication_group_members;
